@@ -1,0 +1,23 @@
+
+RetailPulse - Data Quality Report
+=================================
+
+Total raw records: 76
+Exact duplicates: 1
+
+Valid records: 68
+Rejected records: 8
+
+Data Quality Issues
+-------------------
+
+Missing quantity: 1
+Invalid quantity: 1
+Invalid unit price: 1
+Invalid discount: 0
+Discount greater than gross amount: 3
+
+Invalid store ID: 1
+Invalid product ID: 1
+Invalid status: 1
+Invalid order date: 1

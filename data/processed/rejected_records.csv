@@ -1,0 +1,9 @@
+order_id,order_date,store_id,product_id,customer_id,quantity,unit_price,discount,status,gross_amount,rejection_reason
+ORD1042,2026-01-24,ST01,P002,C042,,1200,0,Completed,,Missing quantity
+ORD1043,not-a-date,ST02,P003,C043,1.0,250,0,Completed,250.0,Invalid order date
+ORD1044,2026-01-25,ST99,P004,C044,1.0,800,0,Completed,800.0,Invalid store ID
+ORD1045,2026-01-25,ST01,P999,C045,1.0,500,0,Completed,500.0,Invalid product ID
+ORD1046,2026-01-26,ST02,P005,C046,-2.0,1500,0,Completed,-3000.0,Discount greater than gross amount
+ORD1047,2026-01-26,ST03,P006,C047,1.0,-150,0,Completed,-150.0,Discount greater than gross amount
+ORD1048,2026-01-27,ST01,P007,C048,1.0,2200,3000,Completed,2200.0,Discount greater than gross amount
+ORD1049,2026-01-27,ST02,P001,C049,1.0,500,0,unknown,500.0,Invalid status
