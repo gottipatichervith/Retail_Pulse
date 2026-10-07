@@ -1,0 +1,65 @@
+RetailPulse - Database Validation Report
+========================================
+
+Project: RetailPulse
+Use Case: 2 - Database Design & Data Loading
+
+1. Record Counts
+----------------
+Customers: 67
+Products: 7
+Stores: 3
+Orders: 67
+Order Items: 68
+
+
+2. Referential Integrity Checks
+------------------------------
+Invalid customer references: 0
+Invalid product references: 0
+Invalid store references: 0
+
+Result: All foreign key references are valid.
+
+
+3. Duplicate Check
+------------------
+Duplicate order IDs: 0
+
+Result: No duplicate order IDs were found.
+
+
+4. Data Quality Checks
+----------------------
+Invalid quantities: 0
+Negative prices: 0
+
+Result: No invalid quantities or negative prices were found.
+
+
+5. CSV vs Database Total Comparison
+-----------------------------------
+Gross Amount:
+CSV:      74800.0
+Database: 74800.0
+Result: MATCH
+
+Net Amount:
+CSV:      73150.0
+Database: 73150.0
+Result: MATCH
+
+
+6. Overall Validation Result
+----------------------------
+All validation checks passed successfully.
+
+The cleaned sales data was loaded into the SQLite database
+without loss or modification of the validated sales totals.
+
+The database contains:
+- 67 customers
+- 7 products
+- 3 stores
+- 67 orders
+- 68 order items

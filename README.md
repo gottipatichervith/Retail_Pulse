@@ -155,3 +155,42 @@ For valid records, the following calculations are performed.
 ### Gross Amount
 
 gross_amount = quantity * unit_price
+
+
+## Use Case 2 - Database Design & Data Loading
+
+### Objective
+
+The objective of Use Case 2 was to design a relational database for the cleaned RetailPulse sales data and load the data into a SQLite database.
+
+### Database
+
+SQLite was used because it is lightweight, does not require a separate database server, and works easily with Python.
+
+### Database Tables
+
+The database contains five tables:
+
+1. Customers
+2. Products
+3. Stores
+4. Orders
+5. Order Items
+
+### Relationships
+
+- One customer can have many orders.
+- One store can have many orders.
+- One order can contain multiple order items.
+- One product can appear in multiple order items.
+
+### Primary and Foreign Keys
+
+Primary keys are used to uniquely identify records.
+
+Foreign keys are used to maintain relationships between tables.
+
+The `order_items` table uses a composite primary key:
+
+```text
+(order_id, product_id)
