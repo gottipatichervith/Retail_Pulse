@@ -161,6 +161,25 @@ reports/inventory_report.md
 
 ---
 
-## Project Outcome
+# Use Case 6 — Customer Analytics & Segmentation
 
-RetailPulse provides a complete workflow from **data cleaning → database loading → sales analysis → advanced analytics → inventory recommendations** using Python and SQL.
+### Objective
+Analyze customer purchasing behavior and segment customers based on their spending and purchase recency.
+
+### Work Done
+- Analyzed customer orders, units purchased, and net spending.
+- Calculated first and most recent purchase dates.
+- Performed RFM (Recency, Frequency, Monetary) analysis.
+- Segmented customers into High Value, At Risk, Recent Low Engagement, and Low Engagement groups.
+- Identified top 10 customers by net spending.
+- Calculated the revenue contribution of the top 10 customers.
+- Compared one-time and repeat customers.
+- Identified customers who have not purchased recently.
+- Validated Python segmentation results against SQL results.
+- Generated a customer analytics report.
+
+### Main Outputs
+
+sql/customer_analysis.sql  
+src/customer_segmentation.py  
+reports/customer_analytics_report.md
