@@ -183,3 +183,35 @@ Analyze customer purchasing behavior and segment customers based on their spendi
 sql/customer_analysis.sql  
 src/customer_segmentation.py  
 reports/customer_analytics_report.md
+
+---
+
+# Use Case 7 — Data Anomalies & Reconciliation
+
+### Objective
+Detect data anomalies and reconcile sales data between the cleaned CSV and the SQLite database.
+
+### Work Done
+- Detected duplicate orders and duplicate order items.
+- Checked customer, product, and store references.
+- Validated quantities, prices, discounts, and net amounts.
+- Investigated unusual high-value transactions.
+- Reconciled order counts and sales totals between CSV and database.
+- Investigated the difference caused by the duplicate transaction.
+- Added critical reconciliation checks.
+- Generated an automated data quality and reconciliation report.
+
+### Main Outputs
+
+sql/anomaly_detection.sql  
+src/reconciliation.py  
+reports/data_quality_reconciliation_report.md
+
+### Execution
+
+Run anomaly detection SQL queries using the RetailPulse SQLite database.
+Run the reconciliation script:
+python src/reconciliation.py
+
+The script validates the cleaned sales data against the database and automatically generates:
+reports/data_quality_reconciliation_report.md
