@@ -1,0 +1,6 @@
+filename,start_time,end_time,records_read,inserted,updated,rejected,skipped,status,error_message
+your_test_file.csv,2026-10-28T15:48:37,2026-10-28T15:48:37,68,0,0,0,68,SUCCESS,
+first_test_file.csv,2026-10-28T16:03:54,2026-10-28T16:03:54,68,0,0,0,68,SUCCESS,
+second_test_file.csv,2026-10-28T16:03:54,2026-10-28T16:03:55,69,1,1,0,67,SUCCESS,
+first_test_file.csv,2026-10-28T16:06:38,2026-10-28T16:06:38,68,0,1,0,67,SUCCESS,
+second_test_file.csv,2026-10-28T16:06:38,2026-10-28T16:06:38,69,0,1,0,68,SUCCESS,

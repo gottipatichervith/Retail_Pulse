@@ -215,3 +215,47 @@ python src/reconciliation.py
 
 The script validates the cleaned sales data against the database and automatically generates:
 reports/data_quality_reconciliation_report.md
+
+# Use Case 8 — Pipeline Automation & Incremental Loading
+
+### Objective
+Automate incoming sales CSV processing and load only new or changed records into the SQLite database while preventing duplicate records.
+
+### Work Done
+- Automated reading of incoming sales CSV files.
+- Validated required columns, data types, missing values, and business rules.
+- Separated valid and rejected records with rejection reasons.
+- Implemented incremental loading using the `order_id + product_id` business key.
+- Inserted new records into the database.
+- Updated existing records when values changed.
+- Skipped identical existing records to prevent duplicates.
+- Used database transactions for safe processing and rollback.
+- Maintained an automated processing log.
+- Generated an automated pipeline run report.
+- Tested reprocessing to verify duplicate prevention.
+- Verified pipeline results using new, updated, and existing records.
+
+### Main Outputs
+
+src/pipeline.py  
+src/validators.py  
+sql/incremental_load.sql  
+logs/pipeline_log.csv  
+reports/pipeline_run_report.md
+
+---
+### Execution
+
+Place incoming sales CSV files in:
+
+data/incoming/
+
+Run the pipeline:
+python src/pipeline.py
+
+The pipeline validates the incoming data, performs incremental loading, and automatically generates:
+
+logs/pipeline_log.csv
+reports/pipeline_run_report.md
+
+The pipeline handles new records using `INSERT`, changed records using `UPDATE`, and identical existing records using `SKIP` to prevent duplicate inserts.
