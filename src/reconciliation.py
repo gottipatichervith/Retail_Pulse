@@ -11,6 +11,7 @@ conn = sqlite3.connect(DB_PATH)
 print("Cleaned CSV loaded successfully.")
 print("Database connected successfully.")
 
+
 csv_rows = len(df)
 db_orders = pd.read_sql_query(
     "SELECT COUNT(*) AS order_count FROM orders",

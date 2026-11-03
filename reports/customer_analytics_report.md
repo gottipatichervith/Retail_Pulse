@@ -27,18 +27,20 @@ The analysis date is **2026-02-10**.
 
 | Segment | Customers | Revenue |
 |---|---:|---:|
-| At Risk | 13 | ₹17,400.00 |
+| At Risk | 13 | ₹17,900.00 |
 | High Value | 31 | ₹48,100.00 |
 | Low Engagement | 5 | ₹2,150.00 |
-| Recent Low Engagement | 18 | ₹5,500.00 |
+| Recent Low Engagement | 18 | ₹5,650.00 |
 
 ## 6. Repeat vs One-time Customers
 
-- **One-time buyer:** 67 customers
+- **One-time buyer:** 66 customers
+- **Repeat buyer:** 1 customers
 
 ## 7. Revenue by Customer Type
 
-- **One-time buyer:** ₹73,150.00
+- **One-time buyer:** ₹73,500.00
+- **Repeat buyer:** ₹300.00
 
 ## 8. Top 10 Customers
 
@@ -57,7 +59,7 @@ The analysis date is **2026-02-10**.
 
 ## 9. Top 10 Revenue Contribution
 
-The top 10 customers generated **₹24,000.00**, representing **32.81%** of total eligible net sales of **₹73,150.00**.
+The top 10 customers generated **₹24,000.00**, representing **32.52%** of total eligible net sales of **₹73,800.00**.
 
 ## 10. Customers Who Have Not Purchased Recently
 
@@ -65,12 +67,12 @@ There are **18 customers** with more than 29 days since their most recent purcha
 
 | Customer | Recency | Net Spending | Segment |
 |---|---:|---:|---|
-| C001 | 38 days | ₹1,000.00 | At Risk |
+| C001 | 38 days | ₹1,500.00 | At Risk |
 | C002 | 38 days | ₹1,100.00 | At Risk |
 | C004 | 37 days | ₹750.00 | At Risk |
 | C003 | 37 days | ₹750.00 | At Risk |
-| C006 | 36 days | ₹1,300.00 | At Risk |
 | C005 | 36 days | ₹1,000.00 | At Risk |
+| C006 | 36 days | ₹1,300.00 | At Risk |
 | C008 | 35 days | ₹1,200.00 | At Risk |
 | C007 | 35 days | ₹600.00 | Low Engagement |
 | C010 | 34 days | ₹2,000.00 | At Risk |

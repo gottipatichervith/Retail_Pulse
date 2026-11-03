@@ -259,3 +259,244 @@ logs/pipeline_log.csv
 reports/pipeline_run_report.md
 
 The pipeline handles new records using `INSERT`, changed records using `UPDATE`, and identical existing records using `SKIP` to prevent duplicate inserts.
+
+# Use Case 9 — Testing & Performance Optimization
+
+### Objective
+Test the RetailPulse system for correctness, reliability, data consistency, and performance before production use.
+
+### Work Done
+- Created automated tests for data quality validation.
+- Tested sales calculation logic.
+- Tested incremental loading and duplicate prevention.
+- Tested SQL and Python result consistency.
+- Added performance testing for SQL queries.
+- Tested query performance before and after adding an index.
+- Generated automated test results and performance reports.
+- Verified 20 automated tests with 20 tests passed.
+- Documented test coverage and performance results.
+- Documented limitations of test results and performance measurements.
+
+### Main Outputs
+
+tests/test_data_quality.py
+tests/test_sales_analytics.py
+tests/test_incremental_loading.py
+tests/test_sql_python_consistency.py
+tests/test_performance.py
+src/generate_test_report.py
+reports/test_results.md
+reports/performance_report.md
+
+---
+
+### Execution
+
+Run the complete test suite:
+
+python -m pytest tests -q
+
+Generate the automated test and performance reports:
+
+python src/generate_test_report.py
+
+The test suite validates data quality, sales calculations, incremental loading, SQL/Python consistency, and performance.
+
+The pipeline automatically generates:
+
+reports/test_results.md  
+reports/performance_report.md
+
+The performance test compares query execution before and after creating an index and records the measured improvement.
+
+The latest performance test showed a **32.73% reduction in query execution time** for the tested dataset.
+
+# Use Case 10 — Capstone Integration & Business Presentation
+
+## Objective
+
+Integrate all RetailPulse use cases into one complete and reproducible retail analytics workflow and generate business-focused insights and recommendations.
+
+The final workflow combines data validation, database loading, sales analytics, inventory analysis, customer analytics, anomaly detection, incremental loading, testing, and business reporting.
+
+## Complete Workflow
+
+```text
+Raw Sales Data
+      ↓
+Data Quality Validation
+      ↓
+Cleaned Sales Data
+      ↓
+Relational Database
+      ↓
+Sales Analytics
+      ↓
+Advanced Sales Analytics
+      ↓
+Inventory Intelligence
+      ↓
+Customer Analytics & Segmentation
+      ↓
+Data Anomaly & Reconciliation
+      ↓
+Incremental Loading
+      ↓
+Automated Testing & Performance Testing
+      ↓
+Final Business Report
+      ↓
+Capstone Presentation
+```
+
+## Work Done
+
+- Integrated the complete RetailPulse workflow.
+- Organized Python scripts, SQL files, tests, data, logs, and reports.
+- Integrated data quality validation before database loading.
+- Integrated relational database loading using SQLite.
+- Added sales performance and advanced sales analytics.
+- Added inventory intelligence and reorder recommendations.
+- Added customer analytics and customer segmentation.
+- Added data anomaly detection and source-to-database reconciliation.
+- Added incremental loading for incoming sales files.
+- Added duplicate prevention and safe rerun handling.
+- Added automated testing for data quality and business logic.
+- Added SQL and Python consistency validation.
+- Added performance testing and query optimization.
+- Generated a final business report with evidence-based insights.
+- Created a capstone presentation for the final project demonstration.
+
+## Business Insights
+
+The final analysis identified several important business findings:
+
+- P005 generated the highest net sales.
+- ST02 generated the highest store-level net sales.
+- February sales were significantly lower than January.
+- Inventory analysis identified out-of-stock and high-risk product-store combinations.
+- Customer segmentation identified high-value and at-risk customers.
+- Reconciliation identified a duplicate source transaction.
+- Automated testing confirmed the main project functionality.
+
+## Business Recommendations
+
+Based on the analysis:
+
+- Investigate the significant decline in February sales.
+- Prioritize high-performing products such as P005, P007, and P002.
+- Monitor ST02 closely for both sales and inventory performance.
+- Replenish out-of-stock and high-risk inventory promptly.
+- Use customer segmentation for targeted retention and re-engagement.
+- Continue reconciliation checks to identify duplicate or inconsistent data.
+- Run automated tests before future production changes.
+
+## Testing
+
+The final project was tested using the automated test suite.
+
+Latest result:
+
+```text
+20 passed
+0 failed
+0 skipped
+```
+
+The tests cover:
+
+- Data quality validation
+- Sales calculation logic
+- Incremental loading
+- Duplicate prevention
+- SQL/Python consistency
+- Performance testing
+
+Run the complete test suite:
+
+```text
+python -m pytest tests -q
+```
+
+## Incremental Loading
+
+The pipeline processes incoming CSV files and classifies records as:
+
+- Inserted
+- Updated
+- Skipped
+- Rejected
+
+The business key used for order-item processing is:
+
+```text
+order_id + product_id
+```
+
+The pipeline also supports safe reruns and prevents duplicate database records.
+
+Run the pipeline using:
+
+```text
+python src/pipeline.py
+```
+
+## Final Reports
+
+The major reports generated during the project include:
+
+```text
+reports/sales_performance_report.md
+reports/advanced_sales_analytics.md
+reports/inventory_report.md
+reports/customer_analytics_report.md
+reports/data_quality_reconciliation_report.md
+reports/pipeline_run_report.md
+reports/test_results.md
+reports/performance_report.md
+reports/final_business_report.md
+reports/capstone_presentation.md
+```
+
+## Final Project Structure
+
+```text
+Retail_Pulse/
+├── data/
+├── database/
+├── docs/
+├── logs/
+├── reports/
+├── sql/
+├── src/
+├── tests/
+├── README.md
+└── requirements.txt
+```
+
+## Capstone Presentation
+
+The final presentation covers:
+
+1. Business problem and project architecture
+2. Data ingestion and data quality
+3. Database design and incremental loading
+4. Sales, inventory, and customer insights
+5. Anomaly detection, reconciliation, and testing
+6. Business recommendations and limitations
+
+## Limitations
+
+- The available sales history is limited.
+- Customer segmentation thresholds are based on the current project dataset.
+- At-risk customers are identified using recency-based signals and do not confirm actual churn.
+- Inventory recommendations use project assumptions such as the 20% safety buffer.
+- Performance results depend on the current dataset and execution environment.
+
+## Conclusion
+
+Use Case 10 brings all RetailPulse components together into a single reproducible retail analytics solution.
+
+The project demonstrates data validation, relational database management, SQL analytics, Python automation, inventory intelligence, customer segmentation, anomaly detection, incremental processing, automated testing, and business reporting.
+
+The final solution is designed to be understandable, reproducible, and suitable for demonstrating both technical implementation and business-oriented decision making.
