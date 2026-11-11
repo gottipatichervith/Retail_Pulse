@@ -500,3 +500,66 @@ Use Case 10 brings all RetailPulse components together into a single reproducibl
 The project demonstrates data validation, relational database management, SQL analytics, Python automation, inventory intelligence, customer segmentation, anomaly detection, incremental processing, automated testing, and business reporting.
 
 The final solution is designed to be understandable, reproducible, and suitable for demonstrating both technical implementation and business-oriented decision making.
+
+## Advanced Phase — Week 1: Advanced SQL & Business Intelligence
+
+### Objective
+Performed advanced SQL analysis to generate business insights about sales growth, customer retention, customer lifetime value, and product and store performance.
+
+### Tasks Completed
+
+**1. Reusable KPI Layer**
+- Created reusable SQL views for business KPIs.
+- Calculated total net sales, order count, Average Order Value (AOV), unique customers, and repeat purchase rate.
+- Analyzed KPIs by month, store, and product.
+
+**2. Customer Cohort & Retention Analysis**
+- Grouped customers based on their first purchase month.
+- Calculated monthly customer retention.
+- Identified customer activity and repeat purchase behaviour.
+
+**3. Customer Lifetime Value**
+- Analyzed historical customer spending and purchase frequency.
+- Identified the top 10 customers.
+- Divided customers into four value segments.
+- Compared customer value across stores.
+
+**4. Product & Store Performance**
+- Analyzed monthly product sales and month-over-month changes.
+- Identified declining product sales.
+- Calculated product contribution to total revenue.
+- Compared product performance across stores.
+
+**5. Query Optimization**
+- Analyzed SQL execution plans using `EXPLAIN QUERY PLAN`.
+- Created indexes to improve database lookups.
+- Examined index usage and query execution times.
+- Documented optimization findings and measurement limitations.
+
+### Technologies Used
+- SQLite
+- SQL
+- Python
+- SQL Views and CTEs
+- Window Functions
+- Database Indexing
+
+### Deliverables
+- `sql/advanced_kpi_layer.sql`
+- `sql/customer_cohort_analysis.sql`
+- `sql/customer_lifetime_value.sql`
+- `sql/product_store_performance.sql`
+- `sql/query_optimization.sql`
+- `src/generate_advanced_reports.py`
+- `reports/advanced_business_intelligence_report.md`
+- `reports/query_performance_comparison.md`
+
+### Key Business Insights
+- Total analyzed net sales: ₹72,650.
+- ST02 generated the highest store revenue.
+- P005 was the highest revenue-generating product.
+- No repeat purchases were observed during the analysis period.
+- All seven products recorded lower sales in February than in January.
+
+### Outcome
+Completed Advanced Phase Week 1 by building reusable SQL KPI views, performing customer and product analytics, analyzing store performance, and exploring SQL query optimization.
