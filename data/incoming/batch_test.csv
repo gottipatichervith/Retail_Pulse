@@ -1,0 +1,6 @@
+order_id,order_date,store_id,product_id,customer_id,quantity,unit_price,discount,status
+ORD001,2026-01-01,ST01,P001,C001,2,500,50,Completed
+ORD002,2026-01-02,ST02,P002,C002,1,300,20,Completed
+ORD003,2026-01-03,ST03,P003,C003,-3,200,0,Completed
+ORD004,2026-01-04,ST01,P004,C004,2,400,50,Pending
+ORD005,2026-01-05,ST02,P005,C005,1,600,100,Completed

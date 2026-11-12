@@ -563,3 +563,45 @@ Performed advanced SQL analysis to generate business insights about sales growth
 
 ### Outcome
 Completed Advanced Phase Week 1 by building reusable SQL KPI views, performing customer and product analytics, analyzing store performance, and exploring SQL query optimization.
+
+# Advanced Phase – Week 2: Reliable Data Engineering & Pipeline Orchestration
+
+## Overview
+Developed a reliable data pipeline for RetailPulse to process sales CSV files in batches, validate records, load data into SQLite, recover from failures, and maintain audit logs.
+
+## Technologies Used
+- Python
+- Pandas
+- SQLite
+- SQL
+- Pytest
+
+## Key Implementations
+- **Batch Processing:** Processed CSV files in configurable batches.
+- **Incremental Loading:** Implemented UPSERT logic to insert new records, update changed records, and skip unchanged records.
+- **Failure Recovery:** Used checkpoints and database transactions to resume processing after failures.
+- **Audit Logging:** Created file-level and batch-level audit tables.
+- **Reconciliation:** Compared CSV records and sales totals with database records.
+- **Idempotency:** Verified that rerunning the same file does not create duplicate records or change existing totals.
+
+## Testing Results
+
+| Metric | Result |
+|---|---:|
+| CSV records processed | 68 |
+| Batches completed | 4 |
+| Valid records | 68 |
+| Rejected records | 0 |
+| Inserted items on rerun | 0 |
+| Updated items on rerun | 0 |
+| Skipped items on rerun | 68 |
+| Reconciliation mismatches | 0 |
+
+A simulated failure after batch 2 was successfully recovered by resuming from batch 3.
+
+## Key Files
+
+- `src/ingestion_pipeline.py`
+- `src/batch_processor.py`
+- `src/recovery_handler.py`
+- `src/re

@@ -1,0 +1,2 @@
+order_id,order_date,store_id,product_id,customer_id,quantity,unit_price,discount,status,gross_amount,rejection_reason
+ORD003,2026-01-03,ST03,P003,C003,-3,200,0,Completed,-600,Invalid quantity
