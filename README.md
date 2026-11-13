@@ -605,3 +605,51 @@ A simulated failure after batch 2 was successfully recovered by resuming from ba
 - `src/batch_processor.py`
 - `src/recovery_handler.py`
 - `src/re
+
+## Advanced Phase – Week 3: Demand Forecasting & Inventory Decisions
+
+### Overview
+Built a demand forecasting system to predict product demand and generate inventory recommendations for RetailPulse.
+
+### Technologies Used
+- Python
+- Pandas and NumPy
+- Matplotlib
+- Scikit-learn
+- SQLite
+- SQL
+
+### Key Implementations
+- Prepared daily product-store sales data.
+- Created time-based training and testing datasets.
+- Compared four forecasting models.
+- Evaluated models using MAE, RMSE and MAPE.
+- Selected Moving Average based on the lowest MAE.
+- Calculated lead-time demand, safety stock and reorder quantities.
+- Identified stockout and potential overstock risks.
+- Compared forecast-based recommendations with existing inventory rules.
+- Generated reports and visualizations automatically.
+
+### Key Results
+- Historical data: 39 days
+- Product-store combinations: 21
+- Forecasting models compared: 4
+- Best model: Moving Average
+- Best MAE: 0.1672
+- Critical stockout risks: 2
+- Forecast-based reorder recommendations: 2
+
+### Main Deliverables
+- `sql/forecasting_dataset.sql`
+- `src/data_preparation.py`
+- `src/demand_forecasting.py`
+- `src/forecast_evaluation.py`
+- `src/inventory_decisions.py`
+- `src/generate_forecasting_reports.py`
+- `src/generate_forecasting_graphs.py`
+- `reports/forecast_performance_report.md`
+- `reports/inventory_recommendations.md`
+- `reports/graphs/`
+
+### Conclusion
+Implemented a basic demand forecasting and inventory recommendation system. The results demonstrate how forecasting can support inventory planning. More historical data is needed to improve forecast reliability.      
