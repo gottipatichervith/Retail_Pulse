@@ -1,15 +1,18 @@
-
+from src.config import DATABASE_FILE, BATCH_SIZE
 from pathlib import Path
 import sqlite3
 from datetime import datetime
 from uuid import uuid4
 
+from src.logger import get_logger
 from src.batch_processor import process_csv_in_batches
 from src.recovery_handler import (
     save_checkpoint,
     get_checkpoint,
     get_checkpoint_status
 )
+
+logger = get_logger("RetailPulsePipeline")
 
 
 # ============================================================
@@ -21,11 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 INCOMING_DIR = BASE_DIR / "data" / "incoming"
 CLEANED_FILE = BASE_DIR / "data" / "processed" / "cleaned_sales.csv"
 
-# Use the test database, not the original database.
-DATABASE_FILE = BASE_DIR / "database" / "retailpulse_pipeline_test.db"
-
-BATCH_SIZE = 200
-
 
 # ============================================================
 # DATABASE CONNECTION
@@ -34,14 +32,22 @@ BATCH_SIZE = 200
 def connect_database():
 
     if not DATABASE_FILE.exists():
+        logger.error("Database file does not exist: %s", DATABASE_FILE)
         raise FileNotFoundError(
             f"Database not found: {DATABASE_FILE}"
         )
 
-    connection = sqlite3.connect(DATABASE_FILE)
-    connection.execute("PRAGMA foreign_keys = ON")
+    try:
+        connection = sqlite3.connect(DATABASE_FILE)
+        connection.execute("PRAGMA foreign_keys = ON")
 
-    return connection
+        logger.info("Connected to database: %s", DATABASE_FILE)
+
+        return connection
+
+    except sqlite3.Error:
+        logger.exception("Could not connect to database.")
+        raise
 
 
 # ============================================================
@@ -274,7 +280,6 @@ def process_one_batch(connection, valid_df, filename, batch_number):
             save_order(connection, row, counts)
             save_order_item(connection, row, counts)
 
-        # Save checkpoint in the same transaction.
         save_checkpoint(
             connection,
             filename,
@@ -284,12 +289,18 @@ def process_one_batch(connection, valid_df, filename, batch_number):
 
         connection.commit()
 
+        logger.info(
+            "Checkpoint saved | file=%s | batch=%s",
+            filename, batch_number
+        )
+
         print(f"Checkpoint saved: Batch {batch_number}")
 
         return counts
 
     except Exception:
         connection.rollback()
+        logger.exception("Batch transaction rolled back.")
         raise
 
 
@@ -312,6 +323,8 @@ def mark_file_completed(connection, filename, last_batch):
 
         connection.commit()
 
+        logger.info("File checkpoint marked COMPLETED: %s", filename)
+
     except Exception:
         connection.rollback()
         raise
@@ -322,7 +335,6 @@ def mark_file_completed(connection, filename, last_batch):
 # ============================================================
 
 def create_file_audit(connection, run_id, filename, started_at):
-    """Create an audit record for a file-processing run."""
 
     connection.execute(
         """
@@ -356,7 +368,6 @@ def save_batch_audit(
     skipped_records=0,
     error_message=None
 ):
-    """Save processing details for an individual batch."""
 
     connection.execute(
         """
@@ -398,7 +409,6 @@ def save_batch_audit(
 
 
 def finish_file_audit(connection, run_id, result):
-    """Update the final result of a file-processing run."""
 
     connection.execute(
         """
@@ -445,6 +455,11 @@ def process_file_in_batches(
     file_path = Path(file_path)
     filename = file_path.name
     run_id = str(uuid4())
+
+    logger.info(
+        "Starting file processing | file=%s | run_id=%s | batch_size=%s",
+        filename, run_id, batch_size
+    )
 
     if batch_size <= 0:
         raise ValueError("Batch size must be greater than zero.")
@@ -496,7 +511,6 @@ def process_file_in_batches(
 
         connection = connect_database()
 
-        # Create file-level audit record.
         create_file_audit(
             connection,
             run_id,
@@ -506,7 +520,6 @@ def process_file_in_batches(
 
         audit_created = True
 
-        # Check previous checkpoint.
         last_completed_batch = get_checkpoint(
             connection, filename
         )
@@ -516,6 +529,11 @@ def process_file_in_batches(
         )
 
         if previous_status == "COMPLETED":
+
+            logger.info(
+                "File was previously completed. Starting fresh: %s",
+                filename
+            )
 
             print("File was completed previously.")
             print("Starting a fresh run from Batch 1.")
@@ -541,6 +559,11 @@ def process_file_in_batches(
 
         elif previous_status == "IN_PROGRESS":
 
+            logger.info(
+                "Previous checkpoint found for %s at batch %s. Resuming.",
+                filename, last_completed_batch
+            )
+
             print(
                 f"Previous checkpoint found: Batch "
                 f"{last_completed_batch}"
@@ -551,6 +574,8 @@ def process_file_in_batches(
             )
 
         else:
+
+            logger.info("No previous checkpoint found for %s.", filename)
 
             print("No previous checkpoint found.")
             print("Starting from Batch 1.")
@@ -577,14 +602,23 @@ def process_file_in_batches(
             process_csv_in_batches(file_path, batch_size)
         ):
 
-            # Skip previously committed batches.
             if batch_number <= last_completed_batch:
+
+                logger.info(
+                    "Skipping previously completed batch %s.",
+                    batch_number
+                )
 
                 print(
                     f"Batch {batch_number} already completed. Skipping."
                 )
 
                 continue
+
+            logger.info(
+                "Starting batch %s for file %s.",
+                batch_number, filename
+            )
 
             print(f"\nLoading batch {batch_number}")
 
@@ -600,7 +634,6 @@ def process_file_in_batches(
 
             try:
 
-                # Load the batch into the database.
                 batch_counts = process_one_batch(
                     connection,
                     valid_df,
@@ -608,7 +641,6 @@ def process_file_in_batches(
                     batch_number
                 )
 
-                # Save successful batch audit.
                 save_batch_audit(
                     connection=connection,
                     run_id=run_id,
@@ -627,14 +659,32 @@ def process_file_in_batches(
                     skipped_records=batch_counts["skipped"]
                 )
 
+                logger.info(
+                    "Batch %s completed | file=%s | read=%s | "
+                    "valid=%s | rejected=%s | inserted=%s | "
+                    "updated=%s | skipped=%s",
+                    batch_number,
+                    filename,
+                    records_in_batch,
+                    len(valid_df),
+                    len(rejected_df),
+                    batch_counts["inserted"],
+                    batch_counts["updated"],
+                    batch_counts["skipped"]
+                )
+
             except Exception as batch_error:
+
+                logger.exception(
+                    "Batch %s failed while processing file %s.",
+                    batch_number, filename
+                )
 
                 result["failed_batch"] = batch_number
 
                 if connection.in_transaction:
                     connection.rollback()
 
-                # Save failed batch details.
                 save_batch_audit(
                     connection=connection,
                     run_id=run_id,
@@ -685,9 +735,19 @@ def process_file_in_batches(
 
         result["status"] = "SUCCESS"
 
+        logger.info(
+            "All batches completed successfully for file %s | run_id=%s",
+            filename, run_id
+        )
+
         print("\nAll batches completed successfully.")
 
     except Exception as error:
+
+        logger.exception(
+            "Pipeline failed for file %s | run_id=%s",
+            filename, run_id
+        )
 
         result["error"] = str(error)
 
@@ -706,7 +766,6 @@ def process_file_in_batches(
 
         if connection is not None:
 
-            # Update file-level audit record.
             if audit_created:
 
                 try:
@@ -717,11 +776,14 @@ def process_file_in_batches(
                         result
                     )
 
-                except Exception as audit_error:
+                except Exception:
 
-                    print(
-                        f"Could not update file audit: {audit_error}"
+                    logger.exception(
+                        "Could not update file audit for run %s.",
+                        run_id
                     )
+
+                    print("Could not update file audit.")
 
             connection.close()
 
@@ -739,6 +801,21 @@ def process_file_in_batches(
     if result["error"]:
         print(f"Error: {result['error']}")
 
+    logger.info(
+        "File summary | run_id=%s | file=%s | records=%s | "
+        "batches=%s | inserted=%s | updated=%s | skipped=%s | "
+        "rejected=%s | status=%s",
+        run_id,
+        filename,
+        result["records_read"],
+        result["completed_batches"],
+        result["inserted"],
+        result["updated"],
+        result["skipped"],
+        result["rejected"],
+        result["status"]
+    )
+
     return result
 
 
@@ -753,11 +830,19 @@ def main():
     csv_files = sorted(INCOMING_DIR.glob("*.csv"))
 
     if not csv_files:
+        logger.warning("No CSV files found in %s.", INCOMING_DIR)
         print("No CSV files found in data/incoming.")
         return
 
+    logger.info(
+        "Pipeline started. Found %s CSV file(s).",
+        len(csv_files)
+    )
+
     for file_path in csv_files:
         process_file_in_batches(file_path)
+
+    logger.info("Pipeline main function finished.")
 
 
 if __name__ == "__main__":
